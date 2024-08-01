@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MyModelFirst1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="MyModelFirst1Container" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="StudentSet" EntityType="MyModelFirst1.Student" />
+    <EntitySet Name="UnitSet" EntityType="MyModelFirst1.Unit" />
+    <AssociationSet Name="StudentUnit" Association="MyModelFirst1.StudentUnit">
+      <End Role="Student" EntitySet="StudentSet" />
+      <End Role="Unit" EntitySet="UnitSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" />
+    <NavigationProperty Name="Unit" Relationship="MyModelFirst1.StudentUnit" FromRole="Student" ToRole="Unit" />
+  </EntityType>
+  <EntityType Name="Unit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" />
+    <NavigationProperty Name="Student" Relationship="MyModelFirst1.StudentUnit" FromRole="Unit" ToRole="Student" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="StudentUnit">
+    <End Type="MyModelFirst1.Student" Role="Student" Multiplicity="1" />
+    <End Type="MyModelFirst1.Unit" Role="Unit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Unit">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
